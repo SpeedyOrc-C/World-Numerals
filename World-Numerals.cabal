@@ -26,7 +26,9 @@ version:            0.1.0.0
 synopsis: Convert your number into many numeral systems around the world.
 
 -- A longer description of the package.
--- description:
+description:
+    Convert your number into many numeral systems around the world.
+    For now, it only supports Chinese.
 
 -- The license under which the package is released.
 license:            MIT
@@ -103,3 +105,8 @@ test-suite World-Numerals-test
     build-depends:
         base ^>=4.18.0.0,
         World-Numerals
+
+source-repository this
+    type: git
+    location: https://github.com/SpeedyOrc-C/World-Numerals
+    tag: 0.1.0.0
