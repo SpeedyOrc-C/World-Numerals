@@ -6,19 +6,19 @@ module Data.Numeral.Chinese (
     toChineseCasual, 转中文口语数字,
 ) where
 
-toChineseNormal :: Integer -> String
+toChineseNormal :: Integral a => a -> String
 toChineseNormal = showNormalChinese . toChineseNumberNormal
-转中文普通数字 :: Integer -> String
+转中文普通数字 :: Integral a => a -> String
 转中文普通数字 = toChineseNormal
 
-toChineseFinancial :: Integer -> String
+toChineseFinancial :: Integral a => a -> String
 toChineseFinancial = showFinancialChinese . toChineseNumberNormal
-转中文金融数字 :: Integer -> String
+转中文金融数字 :: Integral a => a -> String
 转中文金融数字 = toChineseFinancial
 
-toChineseCasual :: Integer -> String
+toChineseCasual :: Integral a => a -> String
 toChineseCasual = showNormalChinese . toChineseNumberCasual
-转中文口语数字 :: Integer -> String
+转中文口语数字 :: Integral a => a -> String
 转中文口语数字 = toChineseCasual
 
 class ShowNormalChinese a where
@@ -27,7 +27,7 @@ class ShowNormalChinese a where
 class ShowFinancialChinese a where
     showFinancialChinese :: a -> String
 
-toChineseNumeral :: Integer -> ChineseNumeral
+toChineseNumeral :: Integral a => a -> ChineseNumeral
 toChineseNumeral = \case
     0 -> Cn0; 1 -> Cn1; 2 -> Cn2; 3 -> Cn3; 4 -> Cn4; 5 -> Cn5
     6 -> Cn6; 7 -> Cn7; 8 -> Cn8; 9 -> Cn9; 10 -> Cn10
@@ -43,41 +43,43 @@ data ChineseNumeral
 
 instance ShowNormalChinese ChineseNumeral where
     showNormalChinese :: ChineseNumeral -> String
-    showNormalChinese Cn0 = "零"
-    showNormalChinese Cn1 = "一"
-    showNormalChinese Cn2 = "二"
-    showNormalChinese Cn2Liang = "两"
-    showNormalChinese Cn3 = "三"
-    showNormalChinese Cn4 = "四"
-    showNormalChinese Cn5 = "五"
-    showNormalChinese Cn6 = "六"
-    showNormalChinese Cn7 = "七"
-    showNormalChinese Cn8 = "八"
-    showNormalChinese Cn9 = "九"
-    showNormalChinese Cn10 = "十"
-    showNormalChinese Cn100 = "百"
-    showNormalChinese Cn1000 = "千"
-    showNormalChinese Cn10000 = "万"
-    showNormalChinese Cn100000000 = "亿"
+    showNormalChinese = \case
+        Cn0 -> "零"
+        Cn1 -> "一"
+        Cn2 -> "二"
+        Cn2Liang -> "两"
+        Cn3 -> "三"
+        Cn4 -> "四"
+        Cn5 -> "五"
+        Cn6 -> "六"
+        Cn7 -> "七"
+        Cn8 -> "八"
+        Cn9 -> "九"
+        Cn10 -> "十"
+        Cn100 -> "百"
+        Cn1000 -> "千"
+        Cn10000 -> "万"
+        Cn100000000 -> "亿"
 
 instance ShowFinancialChinese ChineseNumeral where
     showFinancialChinese :: ChineseNumeral -> String
-    showFinancialChinese Cn0 = "零"
-    showFinancialChinese Cn1 = "壹"
-    showFinancialChinese Cn2 = "贰"
-    showFinancialChinese Cn2Liang = "贰"
-    showFinancialChinese Cn3 = "叁"
-    showFinancialChinese Cn4 = "肆"
-    showFinancialChinese Cn5 = "伍"
-    showFinancialChinese Cn6 = "陆"
-    showFinancialChinese Cn7 = "柒"
-    showFinancialChinese Cn8 = "捌"
-    showFinancialChinese Cn9 = "玖"
-    showFinancialChinese Cn10 = "拾"
-    showFinancialChinese Cn100 = "佰"
-    showFinancialChinese Cn1000 = "仟"
-    showFinancialChinese Cn10000 = "萬"
-    showFinancialChinese Cn100000000 = "億"
+    showFinancialChinese = \case
+        Cn0 -> "零"
+        Cn1 -> "壹"
+        Cn2 -> "贰"
+        Cn2Liang -> "贰"
+        Cn3 -> "叁"
+        Cn4 -> "肆"
+        Cn5 -> "伍"
+        Cn6 -> "陆"
+        Cn7 -> "柒"
+        Cn8 -> "捌"
+        Cn9 -> "玖"
+        Cn10 -> "拾"
+        Cn100 -> "佰"
+        Cn1000 -> "仟"
+        Cn10000 -> "萬"
+        Cn100000000 -> "億"
 
 newtype ChineseNumber = ChineseNumber [ChineseNumeral] deriving (Show, Eq)
 
@@ -93,10 +95,10 @@ keepWhen :: Bool -> a -> [a]
 keepWhen True x = [x]
 keepWhen False _ = []
 
-toChineseNumberNormal :: Integer -> ChineseNumber
+toChineseNumberNormal :: Integral a => a -> ChineseNumber
 toChineseNumberNormal = ChineseNumber . toChineseNumeralsNormal
 
-toChineseNumeralsNormal :: Integer -> [ChineseNumeral]
+toChineseNumeralsNormal :: Integral a => a -> [ChineseNumeral]
 toChineseNumeralsNormal n
     | 0 <= n && n <= 9 = [toChineseNumeral n]
     | 10 == n = [Cn1, Cn10]
@@ -141,10 +143,10 @@ toChineseNumeralsNormal n
 
     | otherwise = error "toChineseNumber': not implemented"
 
-toChineseNumberCasual :: Integer -> ChineseNumber
+toChineseNumberCasual :: Integral a => a -> ChineseNumber
 toChineseNumberCasual = ChineseNumber . toChineseNumeralsCasual
 
-toChineseNumeralsCasual :: Integer -> [ChineseNumeral]
+toChineseNumeralsCasual :: Integral a => a -> [ChineseNumeral]
 toChineseNumeralsCasual n
     | 10 == n = [Cn10]
     | 11 <= n && n <= 19 =

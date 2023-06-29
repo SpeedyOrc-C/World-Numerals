@@ -62,7 +62,9 @@ library
 
     -- Modules exported by the library.
     exposed-modules:
-        Data.Numeral.Chinese
+        Data.Numeral.Chinese,
+        Data.Numeral.Arabic,
+        Data.Numeral.Roman
 
     -- Modules included in this library but not exported.
     -- other-modules:
